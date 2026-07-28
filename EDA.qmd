@@ -5,23 +5,88 @@ format: html
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+This document will include exploratory data analysis of the water potability data set
 
 ```{r}
-1 + 1
+#| message: false
+#| warning: false
+library(tidyverse)
+library(knitr)
+library(gt)
+source("helpers.R")
 ```
 
-You can add options to executable code like this
+## 1. Description of Dataset
+
+The dataset for this analysis contains water quality metrics for 3276 different water bodies.
+
+There are nine (9) numerical explanatory variables and one (1) categorical response variable (Potability). The variables and their descriptions are as follows:
+
+| Variable | Type | Description | Units |
+|------------------|------------------|-------------------|------------------|
+| ph | Numerical | pH of water, 0 to 14 scale | unitless |
+| Hardness | Numerical | Capacity to precipitate soap | mg/L |
+| Solids | Numerical | Total dissolved solids | ppm |
+| Chloramines | Numerical | Chloramine concentration | ppm |
+| Sulfate | Numerical | Dissolved sulfates | mg/L |
+| Conductivity | Numerical | Electrical conductivity | μS/cm |
+| Organic_carbon | Numerical | Total organic carbon | ppm |
+| Trihalomethanes | Numerical | Trihalomethane concentration | μg/L |
+| Turbidity | Numerical | Suspended solids, measured by light-emission | NTU |
+| Potability | Categorical | Safe for consumption, 1 = potable, 0 = not potable | unitless |
+
+Further details and the raw data are available here: <https://www.kaggle.com/datasets/adityakadiwal/water-potability>
+
+For our analysis, Potability is the response variable while the others are designated as predictors.
+
+## 2. Data Cleaning
+
+- Read in the data
 
 ```{r}
-#| echo: false
-2 * 2
+water_data <- read_csv("Data/water_potability.csv")
+```
+- Check for any NA values
+
+```{r}
+enframe(colSums(is.na(water_data)), # tally the NA values
+        name = "Variable", # rename column
+        value = "NA Count") |> # rename column
+  kable() # nice table format
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+It looks like we have quite a few NA values.  Lets look at how many observations are complete.
+
+```{r}
+sum(complete.cases(water_data))
+```
+Before removing the incomplete observations, let's confirm that the rate of potability among complete observations is similar to the rate among incomplete observations
+
+```{r}
+water_data |>
+  mutate(status = if_else(complete.cases(water_data), "complete", "incomplete")) |> # assign complete/incomplete status
+  group_by(status) |> # grup by incomplete/complete
+  summarise(n = n(), potability_rate = mean(Potability)) # for each group, report count and mean Potability
+```
+
+Potability rates are similar among complete and incomplete observations (40.3% vs 36.9%), indicating that the missing values are not strongly associated with the response.  Therefore we will treat the missing values as approximately random and remove these observations. The remaining dataset of complete observations is sufficiently large (n = 2011) to fit models.
+
+```{r}
+water_data <- drop_na(water_data) # removing all observations with NA
+```
+
+- Convert Potability to Factor
+
+```{r}
+water_data <- water_data |>
+  mutate(Potability = factor(Potability))
+```
+
+## 3. Exploratory Data Analysis
+
+- 
+
+```{r}
+summary(water_data)
+```
+

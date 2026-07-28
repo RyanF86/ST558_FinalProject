@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "EDA.html",
+    "href": "EDA.html",
+    "title": "EDA",
+    "section": "",
+    "text": "This document will include exploratory data analysis of the water potability data set\nlibrary(tidyverse)\nlibrary(knitr)\nlibrary(gt)\nsource(\"helpers.R\")"
+  },
+  {
+    "objectID": "EDA.html#description-of-dataset",
+    "href": "EDA.html#description-of-dataset",
+    "title": "EDA",
+    "section": "1. Description of Dataset",
+    "text": "1. Description of Dataset\nThe dataset for this analysis contains water quality metrics for 3276 different water bodies.\nThere are nine (9) numerical explanatory variables and one (1) categorical response variable (Potability). The variables and their descriptions are as follows:\n\n\n\n\n\n\n\n\n\nVariable\nType\nDescription\nUnits\n\n\n\n\nph\nNumerical\npH of water, 0 to 14 scale\nunitless\n\n\nHardness\nNumerical\nCapacity to precipitate soap\nmg/L\n\n\nSolids\nNumerical\nTotal dissolved solids\nppm\n\n\nChloramines\nNumerical\nChloramine concentration\nppm\n\n\nSulfate\nNumerical\nDissolved sulfates\nmg/L\n\n\nConductivity\nNumerical\nElectrical conductivity\nμS/cm\n\n\nOrganic_carbon\nNumerical\nTotal organic carbon\nppm\n\n\nTrihalomethanes\nNumerical\nTrihalomethane concentration\nμg/L\n\n\nTurbidity\nNumerical\nSuspended solids, measured by light-emission\nNTU\n\n\nPotability\nCategorical\nSafe for consumption, 1 = potable, 0 = not potable\nunitless\n\n\n\nFurther details and the raw data are available here: https://www.kaggle.com/datasets/adityakadiwal/water-potability\nFor our analysis, Potability is the response variable while the others are designated as predictors."
+  },
+  {
+    "objectID": "EDA.html#data-cleaning",
+    "href": "EDA.html#data-cleaning",
+    "title": "EDA",
+    "section": "2. Data Cleaning",
+    "text": "2. Data Cleaning\n\nRead in the data\n\n\nwater_data &lt;- read_csv(\"Data/water_potability.csv\")\n\nRows: 3276 Columns: 10\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\nCheck for any NA values\n\n\nenframe(colSums(is.na(water_data)), # tally the NA values\n        name = \"Variable\", # rename column\n        value = \"NA Count\") |&gt; # rename column\n  kable() # nice table format\n\n\n\n\nVariable\nNA Count\n\n\n\n\nph\n491\n\n\nHardness\n0\n\n\nSolids\n0\n\n\nChloramines\n0\n\n\nSulfate\n781\n\n\nConductivity\n0\n\n\nOrganic_carbon\n0\n\n\nTrihalomethanes\n162\n\n\nTurbidity\n0\n\n\nPotability\n0\n\n\n\n\n\nIt looks like we have quite a few NA values. Lets look at how many observations are complete.\n\nsum(complete.cases(water_data))\n\n[1] 2011\n\n\nBefore removing the incomplete observations, let’s confirm that the rate of potability among complete observations is similar to the rate among incomplete observations\n\nwater_data |&gt;\n  mutate(status = if_else(complete.cases(water_data), \"complete\", \"incomplete\")) |&gt; # assign complete/incomplete status\n  group_by(status) |&gt; # grup by incomplete/complete\n  summarise(n = n(), potability_rate = mean(Potability)) # for each group, report count and mean Potability\n\n# A tibble: 2 × 3\n  status         n potability_rate\n  &lt;chr&gt;      &lt;int&gt;           &lt;dbl&gt;\n1 complete    2011           0.403\n2 incomplete  1265           0.369\n\n\nPotability rates are similar among complete and incomplete observations (40.3% vs 36.9%), indicating that the missing values are not strongly associated with the response. Therefore we will treat the missing values as approximately random and remove these observations. The remaining dataset of complete observations is sufficiently large (n = 2011) to fit models.\n\nwater_data &lt;- drop_na(water_data) # removing all observations with NA\n\n\nConvert Potability to Factor\n\n\nwater_data &lt;- water_data |&gt;\n  mutate(Potability = factor(Potability))"
+  },
+  {
+    "objectID": "EDA.html#exploratory-data-analysis",
+    "href": "EDA.html#exploratory-data-analysis",
+    "title": "EDA",
+    "section": "3. Exploratory Data Analysis",
+    "text": "3. Exploratory Data Analysis\n\n\n\n\nsummary(water_data)\n\n       ph             Hardness          Solids         Chloramines    \n Min.   : 0.2275   Min.   : 73.49   Min.   :  320.9   Min.   : 1.391  \n 1st Qu.: 6.0897   1st Qu.:176.74   1st Qu.:15615.7   1st Qu.: 6.139  \n Median : 7.0273   Median :197.19   Median :20933.5   Median : 7.144  \n Mean   : 7.0860   Mean   :195.97   Mean   :21917.4   Mean   : 7.134  \n 3rd Qu.: 8.0530   3rd Qu.:216.44   3rd Qu.:27182.6   3rd Qu.: 8.110  \n Max.   :14.0000   Max.   :317.34   Max.   :56488.7   Max.   :13.127  \n    Sulfate       Conductivity   Organic_carbon  Trihalomethanes  \n Min.   :129.0   Min.   :201.6   Min.   : 2.20   Min.   :  8.577  \n 1st Qu.:307.6   1st Qu.:366.7   1st Qu.:12.12   1st Qu.: 55.953  \n Median :332.2   Median :423.5   Median :14.32   Median : 66.542  \n Mean   :333.2   Mean   :426.5   Mean   :14.36   Mean   : 66.401  \n 3rd Qu.:359.3   3rd Qu.:482.4   3rd Qu.:16.68   3rd Qu.: 77.292  \n Max.   :481.0   Max.   :753.3   Max.   :27.01   Max.   :124.000  \n   Turbidity     Potability\n Min.   :1.450   0:1200    \n 1st Qu.:3.443   1: 811    \n Median :3.968             \n Mean   :3.970             \n 3rd Qu.:4.514             \n Max.   :6.495"
+  },
+  {
+    "objectID": "Modeling.html",
+    "href": "Modeling.html",
+    "title": "Modeling",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "Modeling.html#quarto",
+    "href": "Modeling.html#quarto",
+    "title": "Modeling",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "Modeling.html#running-code",
+    "href": "Modeling.html#running-code",
+    "title": "Modeling",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  }
+]
