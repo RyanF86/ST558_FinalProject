@@ -5,7 +5,7 @@ format: html
 editor: visual
 ---
 
-This document will include exploratory data analysis of the water potability data set
+This document will include exploratory data analysis of the water potability dataset
 
 ```{r}
 #| message: false
@@ -13,7 +13,7 @@ This document will include exploratory data analysis of the water potability dat
 library(tidyverse)
 library(knitr)
 library(gt)
-source("helpers.R")
+library(ggcorrplot)
 ```
 
 ## 1. Description of Dataset
@@ -25,7 +25,7 @@ There are nine (9) numerical explanatory variables and one (1) categorical respo
 | Variable | Type | Description | Units |
 |------------------|------------------|-------------------|------------------|
 | ph | Numerical | pH of water, 0 to 14 scale | unitless |
-| Hardness | Numerical | Capacity to precipitate soap | mg/L |
+| Hardness | Numerical | Amount of dissolved calcium and magnesium | mg/L |
 | Solids | Numerical | Total dissolved solids | ppm |
 | Chloramines | Numerical | Chloramine concentration | ppm |
 | Sulfate | Numerical | Dissolved sulfates | mg/L |
@@ -51,22 +51,25 @@ water_data <- read_csv("Data/water_potability.csv")
 ```{r}
 enframe(colSums(is.na(water_data)), # tally the NA values
         name = "Variable", # rename column
-        value = "NA Count") |> # rename column
-  kable() # nice table format
+        value = "Count") |> # rename column
+  gt() |>
+  tab_header(title = "NA Values in Original Dataset")
 ```
 
-It looks like we have quite a few NA values.  Lets look at how many observations are complete.
+It looks like we have quite a few NA values.  Let's look at how many observations are complete.
 
 ```{r}
 sum(complete.cases(water_data))
 ```
-Before removing the incomplete observations, let's confirm that the rate of potability among complete observations is similar to the rate among incomplete observations
+Before removing the incomplete observations, explore whether the rate of potability among complete observations is similar to the rate among incomplete observations
 
 ```{r}
 water_data |>
   mutate(status = if_else(complete.cases(water_data), "complete", "incomplete")) |> # assign complete/incomplete status
   group_by(status) |> # grup by incomplete/complete
-  summarise(n = n(), potability_rate = mean(Potability)) # for each group, report count and mean Potability
+  summarise(count = n(), potability_rate = mean(Potability)) |> # for each group, report count and mean Potability (still a 0 or 1 numeric)
+  gt() |>
+  tab_header(title = "Summary of Complete vs Incomplete Observations")
 ```
 
 Potability rates are similar among complete and incomplete observations (40.3% vs 36.9%), indicating that the missing values are not strongly associated with the response.  Therefore we will treat the missing values as approximately random and remove these observations. The remaining dataset of complete observations is sufficiently large (n = 2011) to fit models.
@@ -84,9 +87,65 @@ water_data <- water_data |>
 
 ## 3. Exploratory Data Analysis
 
-- 
+- First an overview of the center and spread of the predictor variables:
 
 ```{r}
 summary(water_data)
 ```
 
+- Now let's examine the predictors grouped by potability
+
+```{r}
+#| warning: false
+water_data |>
+  group_by(Potability) |> # group by potability
+  summarise(across(everything(), list(mean = mean, sd = sd), .names = "{.col}&{.fn}")) |> # report mean and std for each variable.  separate names with "&" so as to not conflict with underscore
+  pivot_longer(-Potability, # exclude Potability from the pivot
+               names_to = c("Variable", ".value"),
+               names_sep = "&") |>
+  pivot_wider(names_from = Potability,
+              values_from = c(mean, sd),
+              names_glue = "{.value}_P{Potability}") |> # P0 for non-potable and P1 for potable
+  mutate(across(-Variable, round, digits = 2)) |> # rounding to two decimals
+  gt() |>
+  tab_header(title = "Predictor Means and Standard Deviations by Potability",
+             subtitle = "P0 = Non-Potable; P1 = Potable")
+
+```
+
+For each predictor, the mean values across potability classes are very similar.  Standard deviations by potability are comparable as well.  This suggests that a simple linear model is unlikely to be successful in predicting potability.  Tree-based models capture interactions and non-linear effects, and therefore are better suited to detect any relationships that may exist. 
+
+- Let's plot all predictors grouped by potability
+
+```{r}
+water_data |>
+  pivot_longer(-Potability) |> # required for faceting
+  ggplot(aes(value, fill = factor(Potability))) + # coloring by Potability
+  geom_density(alpha = 0.4) +
+  facet_wrap(~ name, scales = "free") + # facets by name (per the pivot).  "free" allows the scales to adjust for each facet
+  labs(title = "Density Plot of Predictors",
+       subtitle = "Grouped by Potability",
+       fill = "Potability") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5)) # Centers the title and subtitle
+
+```
+
+This plot reinforces the earlier finding: the predictor distributions are not clearly separated by potability. Hardness, ph, and Sulfate show slightly different peak heights between the two classes, but their centers and spreads are nearly identical.
+
+- Finally, let's look for any linear correlation between the predictors  
+
+```{r}
+water_data |>
+  select(-Potability) |> # looking at the predictors without respect to Potability
+  cor() |>
+  ggcorrplot(type = "lower", lab = TRUE) + 
+  labs(title = "Correlation Matrix Heatmap of Predictors") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+The correlation heatmap reveals negligible linear relationships between any of the predictors. (Note: This does not necessarily mean the predictors are independent, only that there is no linear relationship.)
+
+Next, we will create models to predict potability. 
+
+[Click here for the Modeling Page](Modeling.html)
