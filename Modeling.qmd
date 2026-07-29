@@ -7,7 +7,7 @@ editor: visual
 
 ## 1.  Introduction
 
-This document continues from the water potability dataset EDA with the goal of selecting a model the predicts potability from the other variables.  Both classification tree and random forest models will be considered, and the winning model selected.
+This document continues from the water potability dataset EDA with the goal of selecting a model the predicts potability from the other variables.  Both classification tree and random forest models will be considered.  The log-loss metric will be used to select the winning model.
 
 [Click here to return to the EDA Page](EDA.html)
 
@@ -24,32 +24,271 @@ library(tidymodels)
 
 - Split the data
 
+```{r}
+set.seed(123) # setting a seed for reproducibility
+water_data <- read_rds("Data/water_clean.rds") # read cleaned water data from the .rds file
+water_split <- initial_split(water_data, prop = 0.7) # 70% training data, 30% test data
+water_train <- training(water_split)
+water_test <- testing(water_split)
+water_5_fold <- vfold_cv(water_train, 5, strata = Potability) # set 5-fold cross validation; stratify so that each fold has both levels of Potability well represented
+```
+
 - Define the recipe
+
+Note: Normalization of numeric variables is not required for tree based models
+
+```{r}
+water_rec <- recipe(Potability ~ ., data = water_train) 
+water_rec
+```
 
 ## 3. Classification Tree Model
 
-- Describe and specify the model
+- Classification tree model description
+
+Classification tree models work by splitting the predictor space into regions. Each split is determined by an algorithm that selects a predictor and threshold value to optimize the success of predictions.  The resulting tree regions each provide a prediction of the response output.    
+
+Without restrictions in place, splitting will continue until the tree perfectly classifies the training data.  However this represents an over-fit of the model and does not generalize well.  Tuning parameters that place restrictions/penalties on the growth of the tree (such as tree depth, minimum node size, and cost-complexity) are implemented to prevent over-fitting.
+
+One significant advantage of the classification tree model is that the output of the fit is very easy to interpret.  Additionally, the classification tree inherently accommodates interactions and non-linear relationships.
+
+The main disadvantage of the classification tree model is that it is unstable.  Small changes in the data can cause profound changes in the resulting tree.  Furthermore, cross-validation is necessary to select the tuning variables and determine the optimal tree size.
+
+- Specify the model
+
+```{r}
+ClassTree_spec <- decision_tree(tree_depth = 30, # set tree depth at 30 (default value)
+                                min_n = 2, # set minimum node size at 2 (default value) 
+                                cost_complexity = tune()) |> # tune cost complexity parameter
+  set_engine("rpart") |>
+  set_mode("classification")
+```
+
+Note: `tree_depth` and `min_n` are deliberately held fixed at their default values.
 
 - Create the workflow
 
-- Fit the model for varying values of complexity
+```{r}
+ClassTree_wkf <- workflow() |>
+  add_recipe(water_rec) |>
+  add_model(ClassTree_spec)
+ClassTree_wkf
+```
+- Fit the model for varying values of `cost_complexity`
+
+```{r}
+#| warning: false
+# Fit the model with tune_grid() and grid_regular
+ClassTree_grid <- ClassTree_wkf |>
+  tune_grid(resamples = water_5_fold,
+            grid = grid_regular(cost_complexity(range = c(-3.5, -1)), levels = 25), # Specifying 25 values from -3.5 to -1 (log scale)
+            metrics = metric_set(accuracy, mn_log_loss),
+            save_workflow = TRUE) 
+```
+
+```{r}
+# Review the metrics of the tuned fits
+ClassTree_grid |>
+  collect_metrics() |>
+  select(cost_complexity, .metric, mean, std_err) |>
+  pivot_wider(names_from = .metric,
+              values_from = c(mean, std_err),
+              names_glue = "{.metric}_{.value}") |>
+  select(cost_complexity, starts_with("mn_log_loss"), starts_with("accuracy")) |>
+  mutate(across(-cost_complexity, round, digits = 4)) |>
+  gt() |>
+  tab_header(title = "Log-Loss and Accuracy by Cost Complexity",
+             subtitle = "Classification Tree Model Tuning")
+```
+
+```{r}
+# plot the mean log-loss as a function of cost_complexity
+ClassTree_grid |>
+  collect_metrics() |>
+  filter(.metric == "mn_log_loss") |>
+  ggplot(aes(cost_complexity, mean, color = .metric)) +
+  geom_line() +
+  scale_x_log10() + # log scale for x
+  scale_y_log10() + # log scale for y
+  labs(title = "Mean Log-Loss vs Cost Complexity",
+       y =  "Mean Log-Loss",
+       x = "Cost Complexity") +
+  theme(plot.title = element_text(hjust = 0.5), # Centers the title
+        legend.position = "none") # removes the legend
+```
+
+Note:  The fit with the lowest mean log-loss used `cost_complexity` = 0.0147 and demonstrated mean accuracy of 63.2%.  From the EDA, 40.3% of the dataset (NA removed) is potable.  Therefore 63.2% represents only a modest improvement over a blind model that chooses non-potable every time (63.2% vs 59.7%).
 
 - Select the best tuned classification tree model and do a last fit
 
+```{r}
+# Select best fit
+ClassTree_best <- select_best(ClassTree_grid, metric = "mn_log_loss") # selection based on log-loss metric
+ClassTree_best
+```
+
+```{r}
+# Finalize workflow
+ClassTree_wkf |>
+  finalize_workflow(ClassTree_best)
+```
+
+```{r}
+# Fit  to the entire training set and see the model fit
+ClassTree_final <- ClassTree_wkf |>
+  finalize_workflow(ClassTree_best) |>
+  fit(water_train)
+ClassTree_final
+```
+
+```{r}
+# last fit
+ClassTree_final_fit <- ClassTree_wkf |>
+  finalize_workflow(ClassTree_best) |>
+  last_fit(water_split, metrics = metric_set(accuracy, mn_log_loss))
+```
+
+
+```{r}
+#| fig-width: 4 # settings for a clean high-res render
+#| fig-height: 3
+#| dpi: 300
+
+# plot of the classification tree
+extract_workflow(ClassTree_final_fit) |>
+  extract_fit_engine() |>
+  rpart.plot::rpart.plot(roundint = FALSE, 
+                         digits = 4,
+                         main = "Water Potability Classification Tree Plot") # rounding to 4 sig figs
+```
+
+Note:  The classification tree only splits on Sulfate, ph, and Hardness.  This aligns with observations in the EDA.  Further discussion of variable importance is included in the model comparison section.
+
 ## 4. Random Forest Model
 
-- Describe and specify the model
+- Random forest model description
+
+Random forest models expand on classification trees by creating multiple trees and then averaging the results for a final prediction.  Bootstrapping (resampling from the data) is used to create the multiple training sets that each tree is fit to.  
+
+Additionally, at each split only a random subset of the predictors is eligible for selection.  Without this restriction, the same strong predictors would tend to be select for splitting in every tree.  Forcing variety can improve the efficacy of averaging all results.  The number of eligible predictors per split is a tuning parameter selected through cross-validation.
+
+The random forest model has the potential for improved predictive performance through averaging.  However, since there is no single tree to display, this comes at a loss of interpretability.
+
+- Specify the model
+
+```{r}
+RandForest_spec <- rand_forest(mtry = tune()) |> # tune on mtry parameter
+  set_engine("ranger", importance = "impurity") |> # needed to plot variable importance later
+  set_mode("classification")
+```
 
 - Create the workflow
 
+```{r}
+RandForest_wkf <- workflow() |>
+  add_recipe(water_rec) |>
+  add_model(RandForest_spec)
+RandForest_wkf
+```
+
 - Fit the model for varying values of mtry
 
+```{r}
+#| warning: false
+# Fit the model with tune_grid() 
+RandForest_grid <- RandForest_wkf |>
+  tune_grid(resamples = water_5_fold,
+            grid = tibble(mtry = 1:9), # tuning 1:9 for mtry
+            metrics = metric_set(accuracy, mn_log_loss),
+            save_workflow = TRUE) 
+```
+
+```{r}
+# Review the metrics of the tuned fits
+RandForest_grid |>
+  collect_metrics() |>
+  select(mtry, .metric, mean, std_err) |>
+  pivot_wider(names_from = .metric,
+              values_from = c(mean, std_err),
+              names_glue = "{.metric}_{.value}") |>
+  select(mtry, starts_with("mn_log_loss"), starts_with("accuracy")) |>
+  mutate(across(-mtry, round, digits = 4)) |>
+  gt() |>
+  tab_header(title = "Log-Loss and Accuracy by Mtry",
+             subtitle = "Random Forest Model Tuning")
+```
+
+Note: The fit with the lowest mean log-loss used `mtry` = 9, meaning that all predictors are eligible at each tree split and no subsetting occurs.  This reduces a random forest to a bagged tree model.  Furthermore, the best fit produced a mean accuracy of 66.7%.  From the EDA, 40.3% of the dataset (NA removed) is potable.  Therefore 66.7% represents improvement over a blind model that chooses non-potable every time (66.7% vs 59.7%).  
+
 - Select the best tuned random forest model and do a last fit
+
+```{r}
+# Select best fit
+RandForest_best <- select_best(RandForest_grid, metric = "mn_log_loss") # selection based on log-loss metric
+RandForest_best
+```
+
+```{r}
+# Finalize workflow
+RandForest_wkf |>
+  finalize_workflow(RandForest_best)
+```
+```{r}
+# Fit  to the entire training set and see the model fit
+RandForest_final <- RandForest_wkf |>
+  finalize_workflow(RandForest_best) |>
+  fit(water_train)
+RandForest_final
+```
+
+```{r}
+# last fit
+RandForest_final_fit <- RandForest_wkf |>
+  finalize_workflow(RandForest_best) |>
+  last_fit(water_split, metrics = metric_set(accuracy, mn_log_loss))
+```
+
+Note:  Given that the forest model is comprised of 500 trees, it is not feasible to provide a plot.
 
 ## 5. Model Comparison
 
 - Model variable importance comparison
 
+```{r}
+extract_fit_engine(ClassTree_final_fit)$variable.importance |> # grab importance from the final fit
+  enframe(name = "Variable", value = "Importance") |> # convert to data frame for ggplot
+  ggplot(aes(Importance, fct_reorder(Variable, Importance))) +
+  geom_col() +
+  labs(title = "Classification Tree Model: Variable Importance", y = NULL) +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+```{r}
+RandForest_final_fit |>
+  extract_fit_engine() |>
+  ranger::importance() |> # extracts variable importance from a ranger model
+  enframe(name = "term") |> # converts named vector into a data frame, changing name in to "term"
+  ggplot(aes(x = reorder(term, value), y = value)) + # sorts order of term by value (to match prior importance plot)
+  geom_bar(stat ="identity") +
+  coord_flip() +
+  labs(title = "Random Forest Model: Variable Importance",
+       x = "term") + # needs renaming after reorder()
+  theme(plot.title = element_text(hjust = 0.5)) # center title  
+```
+For the classification tree model, three predictors (ph, Sulfate, and Hardness) show substantially higher importance than the rest. These same three predictors also rank highest in the random forest model, though the margin over the other six predictors is much narrower. This is consistent with the EDA where ph, Sulfate, and Hardness were the only predictors whose density plots showed any notable difference between potability and non-potability.
+
 - Model performance comparison
 
-- Declare an overall winner
+```{r}
+bind_rows(
+  `Classification Tree` = collect_metrics(ClassTree_final_fit),
+  `Random Forest` = collect_metrics(RandForest_final_fit),
+  .id = "Model") |>
+  filter(.metric %in% c("mn_log_loss", "accuracy")) |> # keeping just log-loss and accuracy
+  pivot_wider(id_cols = Model, names_from = .metric, values_from = .estimate) |> # pivot to one row per model
+  gt() |>
+  tab_header(title = "Final Model Comparison")
+```
+
+The random forest model wins on both metrics, with lower log-loss (0.587 vs 0.652) and higher accuracy (71.4% vs 65.1%). Both models also performed better on the test set than in cross-validation, which is expected since each final model is fit to the entire training set. A blind model predicting non-potable every time would be correct 59.7% of the time, so the random forest model is a clear improvement while the classification tree model gains very little.
+
+The random forest model is the winner!

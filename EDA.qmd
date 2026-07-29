@@ -87,6 +87,14 @@ water_data <- water_data |>
   mutate(Potability = factor(Potability))
 ```
 
+- Save Cleaned Data
+
+```{r}
+write_rds(water_data, "Data/water_clean.rds")
+# now readily available for use elsewhere
+```
+
+
 ## 4. Exploratory Data Analysis
 
 - First an overview of the center and spread of the predictor variables:
