@@ -5,23 +5,51 @@ format: html
 editor: visual
 ---
 
-## Quarto
+## 1.  Introduction
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+This document continues from the water potability dataset EDA with the goal of selecting a model the predicts potability from the other variables.  Both classification tree and random forest models will be considered, and the winning model selected.
 
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+[Click here to return to the EDA Page](EDA.html)
 
 ```{r}
-1 + 1
+#| message: false
+#| warning: false
+library(tidyverse)
+library(knitr)
+library(gt)
+library(tidymodels)
 ```
 
-You can add options to executable code like this
+## 2. Preparation for Modeling
 
-```{r}
-#| echo: false
-2 * 2
-```
+- Split the data
 
-The `echo: false` option disables the printing of code (only output is displayed).
+- Define the recipe
+
+## 3. Classification Tree Model
+
+- Describe and specify the model
+
+- Create the workflow
+
+- Fit the model for varying values of complexity
+
+- Select the best tuned classification tree model and do a last fit
+
+## 4. Random Forest Model
+
+- Describe and specify the model
+
+- Create the workflow
+
+- Fit the model for varying values of mtry
+
+- Select the best tuned random forest model and do a last fit
+
+## 5. Model Comparison
+
+- Model variable importance comparison
+
+- Model performance comparison
+
+- Declare an overall winner

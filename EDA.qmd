@@ -5,7 +5,9 @@ format: html
 editor: visual
 ---
 
-This document will include exploratory data analysis of the water potability dataset
+## 1. Introduction 
+
+This document will include exploratory data analysis of the water potability dataset.  The goal of the EDA is to understand the structure and quality of the data, as well as any relationships between the variables.  The ultimate goal is to select a model that predicts water potability from the other variables.
 
 ```{r}
 #| message: false
@@ -16,7 +18,7 @@ library(gt)
 library(ggcorrplot)
 ```
 
-## 1. Description of Dataset
+## 2. Description of Dataset
 
 The dataset for this analysis contains water quality metrics for 3276 different water bodies.
 
@@ -35,11 +37,11 @@ There are nine (9) numerical explanatory variables and one (1) categorical respo
 | Turbidity | Numerical | Suspended solids, measured by light-emission | NTU |
 | Potability | Categorical | Safe for consumption, 1 = potable, 0 = not potable | unitless |
 
-Further details and the raw data are available here: <https://www.kaggle.com/datasets/adityakadiwal/water-potability>
+Further details about the data are available here: <https://www.kaggle.com/datasets/adityakadiwal/water-potability>
 
 For our analysis, Potability is the response variable while the others are designated as predictors.
 
-## 2. Data Cleaning
+## 3. Data Cleaning
 
 - Read in the data
 
@@ -66,7 +68,7 @@ Before removing the incomplete observations, explore whether the rate of potabil
 ```{r}
 water_data |>
   mutate(status = if_else(complete.cases(water_data), "complete", "incomplete")) |> # assign complete/incomplete status
-  group_by(status) |> # grup by incomplete/complete
+  group_by(status) |> # group by incomplete/complete
   summarise(count = n(), potability_rate = mean(Potability)) |> # for each group, report count and mean Potability (still a 0 or 1 numeric)
   gt() |>
   tab_header(title = "Summary of Complete vs Incomplete Observations")
@@ -85,7 +87,7 @@ water_data <- water_data |>
   mutate(Potability = factor(Potability))
 ```
 
-## 3. Exploratory Data Analysis
+## 4. Exploratory Data Analysis
 
 - First an overview of the center and spread of the predictor variables:
 
@@ -120,7 +122,7 @@ For each predictor, the mean values across potability classes are very similar. 
 ```{r}
 water_data |>
   pivot_longer(-Potability) |> # required for faceting
-  ggplot(aes(value, fill = factor(Potability))) + # coloring by Potability
+  ggplot(aes(value, fill = Potability)) + # coloring by Potability
   geom_density(alpha = 0.4) +
   facet_wrap(~ name, scales = "free") + # facets by name (per the pivot).  "free" allows the scales to adjust for each facet
   labs(title = "Density Plot of Predictors",
