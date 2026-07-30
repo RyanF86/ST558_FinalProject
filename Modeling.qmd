@@ -18,6 +18,7 @@ library(tidyverse)
 library(knitr)
 library(gt)
 library(tidymodels)
+library(ranger)
 ```
 
 ## 2. Preparation for Modeling
