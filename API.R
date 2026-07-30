@@ -72,7 +72,7 @@ function(ph = ph_mean, # nine numerical predictors as inputs, with their means a
                        Trihalomethanes = as.numeric(Trihalomethanes), 
                        Turbidity = as.numeric(Turbidity)))
   if (any(is.na(predictors))) { # NA would occur if non-numeric input was attempted
-    stop("All predictor inputs must be numeric")
+    return("All predictor inputs must be numeric") # warns user of input requirements
   }
   predict(RandForest_final, new_data = predictors, type = "prob")$.pred_1 # use the model to return prediction of whether Potability = 1
 }
