@@ -46,6 +46,7 @@ For our analysis, Potability is the response variable while the others are desig
 - Read in the data
 
 ```{r}
+#| message: false
 water_data <- read_csv("Data/water_potability.csv")
 ```
 - Check for any NA values

@@ -247,43 +247,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/water_potability.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 3276 Columns: 10
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 </div>
 <ul>
 <li>Check for any NA values</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">enframe</span>(<span class="fu">colSums</span>(<span class="fu">is.na</span>(water_data)), <span class="co"># tally the NA values</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">name =</span> <span class="st">"Variable"</span>, <span class="co"># rename column</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">value =</span> <span class="st">"Count"</span>) <span class="sc">|&gt;</span> <span class="co"># rename column</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"NA Values in Original Dataset"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">enframe</span>(<span class="fu">colSums</span>(<span class="fu">is.na</span>(water_data)), <span class="co"># tally the NA values</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">name =</span> <span class="st">"Variable"</span>, <span class="co"># rename column</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">value =</span> <span class="st">"Count"</span>) <span class="sc">|&gt;</span> <span class="co"># rename column</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"NA Values in Original Dataset"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="abikzmmsnj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#abikzmmsnj table {
+<div id="rnuzvzuzuv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rnuzvzuzuv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#abikzmmsnj thead, #abikzmmsnj tbody, #abikzmmsnj tfoot, #abikzmmsnj tr, #abikzmmsnj td, #abikzmmsnj th {
+#rnuzvzuzuv thead, #rnuzvzuzuv tbody, #rnuzvzuzuv tfoot, #rnuzvzuzuv tr, #rnuzvzuzuv td, #rnuzvzuzuv th {
   border-style: none;
 }
 
-#abikzmmsnj p {
+#rnuzvzuzuv p {
   margin: 0;
   padding: 0;
 }
 
-#abikzmmsnj .gt_table {
+#rnuzvzuzuv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -309,12 +300,12 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-left-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_caption {
+#rnuzvzuzuv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#abikzmmsnj .gt_title {
+#rnuzvzuzuv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -326,7 +317,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-width: 0;
 }
 
-#abikzmmsnj .gt_subtitle {
+#rnuzvzuzuv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -338,7 +329,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-top-width: 0;
 }
 
-#abikzmmsnj .gt_heading {
+#rnuzvzuzuv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -350,13 +341,13 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_bottom_border {
+#rnuzvzuzuv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_col_headings {
+#rnuzvzuzuv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -371,7 +362,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_col_heading {
+#rnuzvzuzuv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -391,7 +382,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   overflow-x: hidden;
 }
 
-#abikzmmsnj .gt_column_spanner_outer {
+#rnuzvzuzuv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -403,15 +394,15 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 4px;
 }
 
-#abikzmmsnj .gt_column_spanner_outer:first-child {
+#rnuzvzuzuv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#abikzmmsnj .gt_column_spanner_outer:last-child {
+#rnuzvzuzuv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#abikzmmsnj .gt_column_spanner {
+#rnuzvzuzuv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -423,11 +414,11 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   width: 100%;
 }
 
-#abikzmmsnj .gt_spanner_row {
+#rnuzvzuzuv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#abikzmmsnj .gt_group_heading {
+#rnuzvzuzuv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -453,7 +444,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   text-align: left;
 }
 
-#abikzmmsnj .gt_empty_group_heading {
+#rnuzvzuzuv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -468,15 +459,15 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   vertical-align: middle;
 }
 
-#abikzmmsnj .gt_from_md > :first-child {
+#rnuzvzuzuv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#abikzmmsnj .gt_from_md > :last-child {
+#rnuzvzuzuv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#abikzmmsnj .gt_row {
+#rnuzvzuzuv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -495,7 +486,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   overflow-x: hidden;
 }
 
-#abikzmmsnj .gt_stub {
+#rnuzvzuzuv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -508,7 +499,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#abikzmmsnj .gt_stub_row_group {
+#rnuzvzuzuv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -522,15 +513,15 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   vertical-align: top;
 }
 
-#abikzmmsnj .gt_row_group_first td {
+#rnuzvzuzuv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#abikzmmsnj .gt_row_group_first th {
+#rnuzvzuzuv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#abikzmmsnj .gt_summary_row {
+#rnuzvzuzuv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -540,16 +531,16 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#abikzmmsnj .gt_first_summary_row {
+#rnuzvzuzuv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_first_summary_row.thick {
+#rnuzvzuzuv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#abikzmmsnj .gt_last_summary_row {
+#rnuzvzuzuv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -559,7 +550,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_grand_summary_row {
+#rnuzvzuzuv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -569,7 +560,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#abikzmmsnj .gt_first_grand_summary_row {
+#rnuzvzuzuv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -579,7 +570,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-top-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_last_grand_summary_row_top {
+#rnuzvzuzuv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -589,11 +580,11 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_striped {
+#rnuzvzuzuv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#abikzmmsnj .gt_table_body {
+#rnuzvzuzuv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -602,7 +593,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_footnotes {
+#rnuzvzuzuv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -616,7 +607,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_footnote {
+#rnuzvzuzuv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -625,7 +616,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#abikzmmsnj .gt_sourcenotes {
+#rnuzvzuzuv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -639,7 +630,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#abikzmmsnj .gt_sourcenote {
+#rnuzvzuzuv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -647,72 +638,72 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#abikzmmsnj .gt_left {
+#rnuzvzuzuv .gt_left {
   text-align: left;
 }
 
-#abikzmmsnj .gt_center {
+#rnuzvzuzuv .gt_center {
   text-align: center;
 }
 
-#abikzmmsnj .gt_right {
+#rnuzvzuzuv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#abikzmmsnj .gt_font_normal {
+#rnuzvzuzuv .gt_font_normal {
   font-weight: normal;
 }
 
-#abikzmmsnj .gt_font_bold {
+#rnuzvzuzuv .gt_font_bold {
   font-weight: bold;
 }
 
-#abikzmmsnj .gt_font_italic {
+#rnuzvzuzuv .gt_font_italic {
   font-style: italic;
 }
 
-#abikzmmsnj .gt_super {
+#rnuzvzuzuv .gt_super {
   font-size: 65%;
 }
 
-#abikzmmsnj .gt_footnote_marks {
+#rnuzvzuzuv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#abikzmmsnj .gt_asterisk {
+#rnuzvzuzuv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#abikzmmsnj .gt_indent_1 {
+#rnuzvzuzuv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#abikzmmsnj .gt_indent_2 {
+#rnuzvzuzuv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#abikzmmsnj .gt_indent_3 {
+#rnuzvzuzuv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#abikzmmsnj .gt_indent_4 {
+#rnuzvzuzuv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#abikzmmsnj .gt_indent_5 {
+#rnuzvzuzuv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#abikzmmsnj .katex-display {
+#rnuzvzuzuv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#abikzmmsnj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rnuzvzuzuv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -776,37 +767,37 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
 </div>
 <p>It looks like we have quite a few NA values. Let’s look at how many observations are complete.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">complete.cases</span>(water_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">complete.cases</span>(water_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2011</code></pre>
 </div>
 </div>
 <p>Before removing the incomplete observations, explore whether the rate of potability among complete observations is similar to the rate among incomplete observations</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">if_else</span>(<span class="fu">complete.cases</span>(water_data), <span class="st">"complete"</span>, <span class="st">"incomplete"</span>)) <span class="sc">|&gt;</span> <span class="co"># assign complete/incomplete status</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(status) <span class="sc">|&gt;</span> <span class="co"># group by incomplete/complete</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">potability_rate =</span> <span class="fu">mean</span>(Potability)) <span class="sc">|&gt;</span> <span class="co"># for each group, report count and mean Potability (still a 0 or 1 numeric)</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Summary of Complete vs Incomplete Observations"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">if_else</span>(<span class="fu">complete.cases</span>(water_data), <span class="st">"complete"</span>, <span class="st">"incomplete"</span>)) <span class="sc">|&gt;</span> <span class="co"># assign complete/incomplete status</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(status) <span class="sc">|&gt;</span> <span class="co"># group by incomplete/complete</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">potability_rate =</span> <span class="fu">mean</span>(Potability)) <span class="sc">|&gt;</span> <span class="co"># for each group, report count and mean Potability (still a 0 or 1 numeric)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Summary of Complete vs Incomplete Observations"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="htbmibhdpd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#htbmibhdpd table {
+<div id="pdrxwkjswy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pdrxwkjswy table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#htbmibhdpd thead, #htbmibhdpd tbody, #htbmibhdpd tfoot, #htbmibhdpd tr, #htbmibhdpd td, #htbmibhdpd th {
+#pdrxwkjswy thead, #pdrxwkjswy tbody, #pdrxwkjswy tfoot, #pdrxwkjswy tr, #pdrxwkjswy td, #pdrxwkjswy th {
   border-style: none;
 }
 
-#htbmibhdpd p {
+#pdrxwkjswy p {
   margin: 0;
   padding: 0;
 }
 
-#htbmibhdpd .gt_table {
+#pdrxwkjswy .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -832,12 +823,12 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-left-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_caption {
+#pdrxwkjswy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#htbmibhdpd .gt_title {
+#pdrxwkjswy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -849,7 +840,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-width: 0;
 }
 
-#htbmibhdpd .gt_subtitle {
+#pdrxwkjswy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -861,7 +852,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-top-width: 0;
 }
 
-#htbmibhdpd .gt_heading {
+#pdrxwkjswy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -873,13 +864,13 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_bottom_border {
+#pdrxwkjswy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_col_headings {
+#pdrxwkjswy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -894,7 +885,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_col_heading {
+#pdrxwkjswy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -914,7 +905,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   overflow-x: hidden;
 }
 
-#htbmibhdpd .gt_column_spanner_outer {
+#pdrxwkjswy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -926,15 +917,15 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 4px;
 }
 
-#htbmibhdpd .gt_column_spanner_outer:first-child {
+#pdrxwkjswy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#htbmibhdpd .gt_column_spanner_outer:last-child {
+#pdrxwkjswy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#htbmibhdpd .gt_column_spanner {
+#pdrxwkjswy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -946,11 +937,11 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   width: 100%;
 }
 
-#htbmibhdpd .gt_spanner_row {
+#pdrxwkjswy .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#htbmibhdpd .gt_group_heading {
+#pdrxwkjswy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -976,7 +967,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   text-align: left;
 }
 
-#htbmibhdpd .gt_empty_group_heading {
+#pdrxwkjswy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -991,15 +982,15 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   vertical-align: middle;
 }
 
-#htbmibhdpd .gt_from_md > :first-child {
+#pdrxwkjswy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#htbmibhdpd .gt_from_md > :last-child {
+#pdrxwkjswy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#htbmibhdpd .gt_row {
+#pdrxwkjswy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1018,7 +1009,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   overflow-x: hidden;
 }
 
-#htbmibhdpd .gt_stub {
+#pdrxwkjswy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1031,7 +1022,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#htbmibhdpd .gt_stub_row_group {
+#pdrxwkjswy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1045,15 +1036,15 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   vertical-align: top;
 }
 
-#htbmibhdpd .gt_row_group_first td {
+#pdrxwkjswy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#htbmibhdpd .gt_row_group_first th {
+#pdrxwkjswy .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#htbmibhdpd .gt_summary_row {
+#pdrxwkjswy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1063,16 +1054,16 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#htbmibhdpd .gt_first_summary_row {
+#pdrxwkjswy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_first_summary_row.thick {
+#pdrxwkjswy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#htbmibhdpd .gt_last_summary_row {
+#pdrxwkjswy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1082,7 +1073,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_grand_summary_row {
+#pdrxwkjswy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1092,7 +1083,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#htbmibhdpd .gt_first_grand_summary_row {
+#pdrxwkjswy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1102,7 +1093,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-top-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_last_grand_summary_row_top {
+#pdrxwkjswy .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1112,11 +1103,11 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_striped {
+#pdrxwkjswy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#htbmibhdpd .gt_table_body {
+#pdrxwkjswy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1125,7 +1116,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_footnotes {
+#pdrxwkjswy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1139,7 +1130,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_footnote {
+#pdrxwkjswy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1148,7 +1139,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#htbmibhdpd .gt_sourcenotes {
+#pdrxwkjswy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1162,7 +1153,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#htbmibhdpd .gt_sourcenote {
+#pdrxwkjswy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1170,72 +1161,72 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#htbmibhdpd .gt_left {
+#pdrxwkjswy .gt_left {
   text-align: left;
 }
 
-#htbmibhdpd .gt_center {
+#pdrxwkjswy .gt_center {
   text-align: center;
 }
 
-#htbmibhdpd .gt_right {
+#pdrxwkjswy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#htbmibhdpd .gt_font_normal {
+#pdrxwkjswy .gt_font_normal {
   font-weight: normal;
 }
 
-#htbmibhdpd .gt_font_bold {
+#pdrxwkjswy .gt_font_bold {
   font-weight: bold;
 }
 
-#htbmibhdpd .gt_font_italic {
+#pdrxwkjswy .gt_font_italic {
   font-style: italic;
 }
 
-#htbmibhdpd .gt_super {
+#pdrxwkjswy .gt_super {
   font-size: 65%;
 }
 
-#htbmibhdpd .gt_footnote_marks {
+#pdrxwkjswy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#htbmibhdpd .gt_asterisk {
+#pdrxwkjswy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#htbmibhdpd .gt_indent_1 {
+#pdrxwkjswy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#htbmibhdpd .gt_indent_2 {
+#pdrxwkjswy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#htbmibhdpd .gt_indent_3 {
+#pdrxwkjswy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#htbmibhdpd .gt_indent_4 {
+#pdrxwkjswy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#htbmibhdpd .gt_indent_5 {
+#pdrxwkjswy .gt_indent_5 {
   text-indent: 25px;
 }
 
-#htbmibhdpd .katex-display {
+#pdrxwkjswy .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#htbmibhdpd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#pdrxwkjswy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1270,21 +1261,21 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
 </div>
 <p>Potability rates are similar among complete and incomplete observations (40.3% vs 36.9%), indicating that the missing values are not strongly associated with the response. Therefore we will treat the missing values as approximately random and remove these observations. The remaining dataset of complete observations is sufficiently large (n = 2011) to fit models.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="ot">&lt;-</span> <span class="fu">drop_na</span>(water_data) <span class="co"># removing all observations with NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="ot">&lt;-</span> <span class="fu">drop_na</span>(water_data) <span class="co"># removing all observations with NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Convert Potability to Factor</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="ot">&lt;-</span> water_data <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Potability =</span> <span class="fu">factor</span>(Potability))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="ot">&lt;-</span> water_data <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Potability =</span> <span class="fu">factor</span>(Potability))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Save Cleaned Data</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(water_data, <span class="st">"Data/water_clean.rds"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># now readily available for use elsewhere</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(water_data, <span class="st">"Data/water_clean.rds"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># now readily available for use elsewhere</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="exploratory-data-analysis" class="level2">
@@ -1293,7 +1284,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
 <li>First an overview of the center and spread of the predictor variables:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(water_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(water_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       ph             Hardness          Solids         Chloramines    
  Min.   : 0.2275   Min.   : 73.49   Min.   :  320.9   Min.   : 1.391  
@@ -1322,37 +1313,37 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
 <li>Now let’s examine the predictors grouped by potability</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Potability) <span class="sc">|&gt;</span> <span class="co"># group by potability</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">sd =</span> sd), <span class="at">.names =</span> <span class="st">"{.col}&amp;{.fn}"</span>)) <span class="sc">|&gt;</span> <span class="co"># report mean and std for each variable.  separate names with "&amp;" so as to not conflict with underscore</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Potability, <span class="co"># exclude Potability from the pivot</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"Variable"</span>, <span class="st">".value"</span>),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_sep =</span> <span class="st">"&amp;"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Potability,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> <span class="fu">c</span>(mean, sd),</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_glue =</span> <span class="st">"{.value}_P{Potability}"</span>) <span class="sc">|&gt;</span> <span class="co"># P0 for non-potable and P1 for potable</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="sc">-</span>Variable, round, <span class="at">digits =</span> <span class="dv">2</span>)) <span class="sc">|&gt;</span> <span class="co"># rounding to two decimals</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Predictor Means and Standard Deviations by Potability"</span>,</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">"P0 = Non-Potable; P1 = Potable"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Potability) <span class="sc">|&gt;</span> <span class="co"># group by potability</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">sd =</span> sd), <span class="at">.names =</span> <span class="st">"{.col}&amp;{.fn}"</span>)) <span class="sc">|&gt;</span> <span class="co"># report mean and std for each variable.  separate names with "&amp;" so as to not conflict with underscore</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Potability, <span class="co"># exclude Potability from the pivot</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"Variable"</span>, <span class="st">".value"</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_sep =</span> <span class="st">"&amp;"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Potability,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> <span class="fu">c</span>(mean, sd),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_glue =</span> <span class="st">"{.value}_P{Potability}"</span>) <span class="sc">|&gt;</span> <span class="co"># P0 for non-potable and P1 for potable</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="sc">-</span>Variable, round, <span class="at">digits =</span> <span class="dv">2</span>)) <span class="sc">|&gt;</span> <span class="co"># rounding to two decimals</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Predictor Means and Standard Deviations by Potability"</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">"P0 = Non-Potable; P1 = Potable"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="ybozgbvlmd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ybozgbvlmd table {
+<div id="etdfjuculo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#etdfjuculo table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ybozgbvlmd thead, #ybozgbvlmd tbody, #ybozgbvlmd tfoot, #ybozgbvlmd tr, #ybozgbvlmd td, #ybozgbvlmd th {
+#etdfjuculo thead, #etdfjuculo tbody, #etdfjuculo tfoot, #etdfjuculo tr, #etdfjuculo td, #etdfjuculo th {
   border-style: none;
 }
 
-#ybozgbvlmd p {
+#etdfjuculo p {
   margin: 0;
   padding: 0;
 }
 
-#ybozgbvlmd .gt_table {
+#etdfjuculo .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1378,12 +1369,12 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-left-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_caption {
+#etdfjuculo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ybozgbvlmd .gt_title {
+#etdfjuculo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1395,7 +1386,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-width: 0;
 }
 
-#ybozgbvlmd .gt_subtitle {
+#etdfjuculo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1407,7 +1398,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-top-width: 0;
 }
 
-#ybozgbvlmd .gt_heading {
+#etdfjuculo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1419,13 +1410,13 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_bottom_border {
+#etdfjuculo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_col_headings {
+#etdfjuculo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1440,7 +1431,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_col_heading {
+#etdfjuculo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1460,7 +1451,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   overflow-x: hidden;
 }
 
-#ybozgbvlmd .gt_column_spanner_outer {
+#etdfjuculo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1472,15 +1463,15 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 4px;
 }
 
-#ybozgbvlmd .gt_column_spanner_outer:first-child {
+#etdfjuculo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ybozgbvlmd .gt_column_spanner_outer:last-child {
+#etdfjuculo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ybozgbvlmd .gt_column_spanner {
+#etdfjuculo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1492,11 +1483,11 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   width: 100%;
 }
 
-#ybozgbvlmd .gt_spanner_row {
+#etdfjuculo .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ybozgbvlmd .gt_group_heading {
+#etdfjuculo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1522,7 +1513,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   text-align: left;
 }
 
-#ybozgbvlmd .gt_empty_group_heading {
+#etdfjuculo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1537,15 +1528,15 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   vertical-align: middle;
 }
 
-#ybozgbvlmd .gt_from_md > :first-child {
+#etdfjuculo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ybozgbvlmd .gt_from_md > :last-child {
+#etdfjuculo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ybozgbvlmd .gt_row {
+#etdfjuculo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1564,7 +1555,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   overflow-x: hidden;
 }
 
-#ybozgbvlmd .gt_stub {
+#etdfjuculo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1577,7 +1568,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#ybozgbvlmd .gt_stub_row_group {
+#etdfjuculo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1591,15 +1582,15 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   vertical-align: top;
 }
 
-#ybozgbvlmd .gt_row_group_first td {
+#etdfjuculo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ybozgbvlmd .gt_row_group_first th {
+#etdfjuculo .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ybozgbvlmd .gt_summary_row {
+#etdfjuculo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1609,16 +1600,16 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#ybozgbvlmd .gt_first_summary_row {
+#etdfjuculo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_first_summary_row.thick {
+#etdfjuculo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ybozgbvlmd .gt_last_summary_row {
+#etdfjuculo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1628,7 +1619,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_grand_summary_row {
+#etdfjuculo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1638,7 +1629,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#ybozgbvlmd .gt_first_grand_summary_row {
+#etdfjuculo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1648,7 +1639,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-top-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_last_grand_summary_row_top {
+#etdfjuculo .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1658,11 +1649,11 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_striped {
+#etdfjuculo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ybozgbvlmd .gt_table_body {
+#etdfjuculo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1671,7 +1662,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-bottom-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_footnotes {
+#etdfjuculo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1685,7 +1676,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_footnote {
+#etdfjuculo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1694,7 +1685,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#ybozgbvlmd .gt_sourcenotes {
+#etdfjuculo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1708,7 +1699,7 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   border-right-color: #D3D3D3;
 }
 
-#ybozgbvlmd .gt_sourcenote {
+#etdfjuculo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1716,72 +1707,72 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
   padding-right: 5px;
 }
 
-#ybozgbvlmd .gt_left {
+#etdfjuculo .gt_left {
   text-align: left;
 }
 
-#ybozgbvlmd .gt_center {
+#etdfjuculo .gt_center {
   text-align: center;
 }
 
-#ybozgbvlmd .gt_right {
+#etdfjuculo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ybozgbvlmd .gt_font_normal {
+#etdfjuculo .gt_font_normal {
   font-weight: normal;
 }
 
-#ybozgbvlmd .gt_font_bold {
+#etdfjuculo .gt_font_bold {
   font-weight: bold;
 }
 
-#ybozgbvlmd .gt_font_italic {
+#etdfjuculo .gt_font_italic {
   font-style: italic;
 }
 
-#ybozgbvlmd .gt_super {
+#etdfjuculo .gt_super {
   font-size: 65%;
 }
 
-#ybozgbvlmd .gt_footnote_marks {
+#etdfjuculo .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ybozgbvlmd .gt_asterisk {
+#etdfjuculo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ybozgbvlmd .gt_indent_1 {
+#etdfjuculo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ybozgbvlmd .gt_indent_2 {
+#etdfjuculo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ybozgbvlmd .gt_indent_3 {
+#etdfjuculo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ybozgbvlmd .gt_indent_4 {
+#etdfjuculo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ybozgbvlmd .gt_indent_5 {
+#etdfjuculo .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ybozgbvlmd .katex-display {
+#etdfjuculo .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ybozgbvlmd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#etdfjuculo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1877,16 +1868,16 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
 <li>Let’s plot all predictors grouped by potability</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Potability) <span class="sc">|&gt;</span> <span class="co"># required for faceting</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value, <span class="at">fill =</span> Potability)) <span class="sc">+</span> <span class="co"># coloring by Potability</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> name, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span> <span class="co"># facets by name (per the pivot).  "free" allows the scales to adjust for each facet</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Density Plot of Predictors"</span>,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Grouped by Potability"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Potability"</span>) <span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="co"># Centers the title and subtitle</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Potability) <span class="sc">|&gt;</span> <span class="co"># required for faceting</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value, <span class="at">fill =</span> Potability)) <span class="sc">+</span> <span class="co"># coloring by Potability</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> name, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span> <span class="co"># facets by name (per the pivot).  "free" allows the scales to adjust for each facet</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Density Plot of Predictors"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Grouped by Potability"</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Potability"</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="co"># Centers the title and subtitle</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1900,12 +1891,12 @@ dbl (10): ph, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic_...
 <li>Finally, let’s look for any linear correlation between the predictors</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Potability) <span class="sc">|&gt;</span> <span class="co"># looking at the predictors without respect to Potability</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>() <span class="sc">|&gt;</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggcorrplot</span>(<span class="at">type =</span> <span class="st">"lower"</span>, <span class="at">lab =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Correlation Matrix Heatmap of Predictors"</span>) <span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>water_data <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Potability) <span class="sc">|&gt;</span> <span class="co"># looking at the predictors without respect to Potability</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggcorrplot</span>(<span class="at">type =</span> <span class="st">"lower"</span>, <span class="at">lab =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Correlation Matrix Heatmap of Predictors"</span>) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

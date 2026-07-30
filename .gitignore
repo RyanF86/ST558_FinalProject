@@ -5,3 +5,7 @@
 
 /.quarto/
 **/*.quarto_ipynb
+
+# adding docker file formats to be ignored
+*.tar
+*.tar.gz

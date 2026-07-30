@@ -7,7 +7,7 @@ editor: visual
 
 ## 1.  Introduction
 
-This document continues from the water potability dataset EDA with the goal of selecting a model the predicts potability from the other variables.  Both classification tree and random forest models will be considered.  The log-loss metric will be used to select the winning model.
+This document continues from the water potability dataset EDA with the goal of selecting a model that predicts potability from the other variables.  Both classification tree and random forest models will be considered.  The log-loss metric will be used to select the winning model.
 
 [Click here to return to the EDA Page](EDA.html)
 
@@ -57,14 +57,14 @@ The main disadvantage of the classification tree model is that it is unstable.  
 - Specify the model
 
 ```{r}
-ClassTree_spec <- decision_tree(tree_depth = 30, # set tree depth at 30 (default value)
-                                min_n = 2, # set minimum node size at 2 (default value) 
+ClassTree_spec <- decision_tree(tree_depth = 30, # set tree depth at 30 
+                                min_n = 2, # set minimum node size at 2  
                                 cost_complexity = tune()) |> # tune cost complexity parameter
   set_engine("rpart") |>
   set_mode("classification")
 ```
 
-Note: `tree_depth` and `min_n` are deliberately held fixed at their default values.
+Note: `tree_depth` and `min_n` are deliberately set to allow very large trees.  `cost_complexity` alone controls tree size.
 
 - Create the workflow
 
@@ -87,6 +87,7 @@ ClassTree_grid <- ClassTree_wkf |>
 ```
 
 ```{r}
+#| warning: false
 # Review the metrics of the tuned fits
 ClassTree_grid |>
   collect_metrics() |>
@@ -170,7 +171,7 @@ Note:  The classification tree only splits on Sulfate, ph, and Hardness.  This a
 
 Random forest models expand on classification trees by creating multiple trees and then averaging the results for a final prediction.  Bootstrapping (resampling from the data) is used to create the multiple training sets that each tree is fit to.  
 
-Additionally, at each split only a random subset of the predictors is eligible for selection.  Without this restriction, the same strong predictors would tend to be select for splitting in every tree.  Forcing variety can improve the efficacy of averaging all results.  The number of eligible predictors per split is a tuning parameter selected through cross-validation.
+Additionally, at each split only a random subset of the predictors is eligible for selection.  Without this restriction, the same strong predictors would tend to be selected for splitting in every tree.  Forcing variety can improve the efficacy of averaging all results.  The number of eligible predictors per split is a tuning parameter selected through cross-validation.
 
 The random forest model has the potential for improved predictive performance through averaging.  However, since there is no single tree to display, this comes at a loss of interpretability.
 
@@ -204,6 +205,7 @@ RandForest_grid <- RandForest_wkf |>
 ```
 
 ```{r}
+#| warning: false
 # Review the metrics of the tuned fits
 RandForest_grid |>
   collect_metrics() |>
