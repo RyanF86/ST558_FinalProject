@@ -47,9 +47,9 @@ Turbidity_mean <- mean(water_data$Turbidity)
 #* @param Solids Solids in ppm
 #* @param Chloramines Chloramine concentration in ppm
 #* @param Sulfate Sulfate in mg/L
-#* @param Conductivity Conductivity in μS/cm
+#* @param Conductivity Conductivity in uS/cm
 #* @param Organic_carbon Organic Carbon in ppm
-#* @param Trihalomethanes Trihalomethanes in μg/L
+#* @param Trihalomethanes Trihalomethanes in ug/L
 #* @param Turbidity Turbidity in NTU
 #* @get /pred
 function(ph = ph_mean, # nine numerical predictors as inputs, with their means as the default values
@@ -83,7 +83,7 @@ function(ph = ph_mean, # nine numerical predictors as inputs, with their means a
 # http://localhost:8000/pred?ph=abcd
 
 # API endpoint: info
-#* Return's author name and rendered github pages URL
+#* Returns author name and rendered github pages URL
 #* @get /info
 function(){ # 
   list(name = "Ryan Friedman",
